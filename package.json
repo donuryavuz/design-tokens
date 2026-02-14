@@ -1,0 +1,19 @@
+{
+  "name": "@kunduz/tokens",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "files": ["tokens-dist/**"],
+  "main": "tokens-dist/primitives-core.runtime.json",
+  "exports": {
+    ".": "./tokens-dist/primitives-core.runtime.json",
+    "./runtime": "./tokens-dist/primitives-core.runtime.json",
+    "./figma": "./tokens-dist/primitives-core.figma.json"
+  },
+  "scripts": {
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "watch:tokens": "node --watch scripts/build-tokens.mjs",
+    "prepack": "pnpm build:tokens"
+  },
+  "devDependencies": {}
+}
