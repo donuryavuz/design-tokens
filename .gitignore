@@ -1,0 +1,15 @@
+node_modules/
+.DS_Store
+
+# Old files (to be deleted from git history)
+tokens-dist/
+tokens/source/
+tokens/primitives.json
+tokens/.gitkeep
+scripts/build-tokens.mjs
+scripts/.gitkeep
+analyze-tokens.js
+package-lock.json
+
+# Build outputs (generated, committed via CI)
+# dist/ is intentionally tracked so consumers can use the package

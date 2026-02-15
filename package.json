@@ -3,17 +3,36 @@
   "version": "0.1.0",
   "private": false,
   "type": "module",
-  "files": ["tokens-dist/**"],
-  "main": "tokens-dist/primitives-core.runtime.json",
+  "description": "Kunduz design system primitive tokens for web (React/Tailwind) and mobile (React Native/Unistyles)",
+  "files": [
+    "dist/web/primitives.css",
+    "dist/web/primitives.js",
+    "dist/web/primitives.d.ts",
+    "dist/native/primitives.js",
+    "dist/native/primitives.d.ts",
+    "tokens/primitives.figma.json",
+    "tokens/primitives.manual.json"
+  ],
   "exports": {
-    ".": "./tokens-dist/primitives-core.runtime.json",
-    "./runtime": "./tokens-dist/primitives-core.runtime.json",
-    "./figma": "./tokens-dist/primitives-core.figma.json"
+    "./web/css": "./dist/web/primitives.css",
+    "./web": {
+      "types": "./dist/web/primitives.d.ts",
+      "import": "./dist/web/primitives.js",
+      "default": "./dist/web/primitives.js"
+    },
+    "./native": {
+      "types": "./dist/native/primitives.d.ts",
+      "import": "./dist/native/primitives.js",
+      "default": "./dist/native/primitives.js"
+    },
+    "./tokens/figma": "./tokens/primitives.figma.json",
+    "./tokens/manual": "./tokens/primitives.manual.json"
   },
   "scripts": {
-    "build:tokens": "node scripts/build-tokens.mjs",
-    "watch:tokens": "node --watch scripts/build-tokens.mjs",
-    "prepack": "pnpm build:tokens"
+    "normalize": "node scripts/normalize.mjs",
+    "build": "node scripts/build.mjs",
+    "pipeline": "node scripts/normalize.mjs && node scripts/build.mjs",
+    "prepack": "npm run pipeline"
   },
   "devDependencies": {}
 }

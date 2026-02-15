@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body { font: 12px/1.4 -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Inter, sans-serif; padding: 12px; }
+      input { width: 100%; padding: 8px; box-sizing: border-box; }
+      button { margin-top: 10px; padding: 8px 10px; width: 100%; }
+      .row { margin-top: 10px; display: flex; gap: 8px; }
+      .row button { width: 50%; }
+      .hint { margin-top: 8px; color: #666; }
+      .log { margin-top: 10px; white-space: pre-wrap; background: #f6f6f6; padding: 8px; border-radius: 6px; max-height: 180px; overflow: auto; }
+    </style>
+  </head>
+  <body>
+    <div><b>GitHub Raw URL</b></div>
+    <input id="url" placeholder="https://raw.githubusercontent.com/<user>/<repo>/main/tokens-dist/primitives-core.figma.json" />
+    <div class="hint">Public repo olmalı. Sadece <code>colors</code> senkronlanır.</div>
+
+    <button id="sync">Sync Colors</button>
+    <div class="row">
+      <button id="close" type="button">Close</button>
+      <button id="fill" type="button">Use Example</button>
+    </div>
+
+    <div class="log" id="log"></div>
+
+    <script>
+      const logEl = document.getElementById("log");
+      const urlEl = document.getElementById("url");
+
+      function log(msg) { logEl.textContent = msg + "\n" + logEl.textContent; }
+
+      document.getElementById("fill").onclick = () => {
+        // örnek: burayı kendi repoya göre değiştir
+        urlEl.value = "https://raw.githubusercontent.com/<user>/<repo>/main/tokens-dist/primitives-core.figma.json";
+      };
+
+      document.getElementById("sync").onclick = () => {
+        const url = urlEl.value.trim();
+        if (!url) return log("URL boş.");
+        parent.postMessage({ pluginMessage: { type: "sync", url } }, "*");
+        log("Sync başladı…");
+      };
+
+      document.getElementById("close").onclick = () => parent.postMessage({ pluginMessage: { type: "close" } }, "*");
+
+      window.onmessage = (event) => {
+        const msg = event.data.pluginMessage;
+        if (!msg) return;
+        if (msg.type === "log") log(msg.message);
+      };
+    </script>
+  </body>
+</html>
